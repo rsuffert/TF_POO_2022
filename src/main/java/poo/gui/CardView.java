@@ -31,20 +31,18 @@ public class CardView extends Button implements PropertyChangeListener {
 			}
 		});
 
-		if (card.getValue() instanceof CartaPokemon) {
-			this.updateTooltip();
-		}
-		else {
-			tip = new Tooltip("Fornece 1 energia");
-		}
+		tip = new Tooltip();
 		this.setTooltip(tip);
-		tip.setOnShowing(e -> this.updateTooltip()); // updates tooltip before showing?
+		tip.setOnShowing(e -> this.updateTooltip()); // updates tooltip before showing
 	}
 
 	public void updateTooltip() {
 		if (card.getValue() instanceof CartaPokemon) {
 			CartaPokemon carta = (CartaPokemon) card.getValue();
-			tip = new Tooltip(String.format("HP: %d\nEnergia: %d", carta.getHpAtual(), carta.getEnergiaAtual()));
+			tip.setText(String.format("HP: %d\nEnergia: %d\nRaridade: %s", carta.getHpAtual(), carta.getEnergiaAtual(), carta.getRaridade().toString()));
+		}
+		else {
+			tip.setText(String.format("Fornece 1 energia\nRaridade: %s", card.getValue().getRaridade().toString()));
 		}
 	}
 
