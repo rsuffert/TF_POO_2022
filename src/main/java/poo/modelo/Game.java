@@ -3,6 +3,8 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import poo.gui.PlacarView;
+
 //import poo.modelo.GameEvent.Action;
 //import poo.modelo.GameEvent.Target;
 
@@ -27,8 +29,8 @@ public class Game {
 	}
 
 	private void nextPhase() {
-		if (currentPhase == 5) currentPhase = 0;
 		currentPhase++;
+		if (currentPhase == 4) currentPhase = 0;
 	}
 
 	public int getPokemonsJ1() {
@@ -132,6 +134,26 @@ public class Game {
 		deckJ2.addEnergyForEachKill(removidosJ1);
 		
 		nextPhase();
+		this.updatePlacarViewLabel();
+	}
+
+	public void updatePlacarViewLabel() {
+		String text;
+
+		if (currentPhase == 1) {
+			text = "J1 baixa cartas";
+		}
+		else if (currentPhase == 2) {
+			text = "J2 baixa cartas";
+		}
+		else if (currentPhase == 3) {
+			text = "J1 ataca";
+		}
+		else {
+			text = "J2 ataca";
+		}
+
+		PlacarView.getInstance().setFieldFaseAtual(text);
 	}
 	
 	public void addGameListener(GameListener listener) {

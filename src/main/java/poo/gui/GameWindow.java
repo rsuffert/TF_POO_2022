@@ -89,7 +89,7 @@ public class GameWindow extends Application implements GameListener {
 		sdM1.setContent(mesaJ1);
 		grid3.add(sdM1, 0, 0);
 
-		PlacarView placar = new PlacarView();
+		PlacarView placar = PlacarView.getInstance();
 		grid3.add(placar, 0, 1);
 
 		Button butEndTurn = new Button("End turn");
