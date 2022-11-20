@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import poo.modelo.Card;
 import poo.modelo.ImageFactory;
+import poo.modelo.CartaPokemon;
 
 public class CardView extends Button implements PropertyChangeListener {
 	private Card card;
@@ -30,8 +31,21 @@ public class CardView extends Button implements PropertyChangeListener {
 			}
 		});
 
-		tip = new Tooltip(card.getId());
+		if (card.getValue() instanceof CartaPokemon) {
+			this.updateTooltip();
+		}
+		else {
+			tip = new Tooltip("Fornece 1 energia");
+		}
 		this.setTooltip(tip);
+		tip.setOnShowing(e -> this.updateTooltip()); // updates tooltip before showing?
+	}
+
+	public void updateTooltip() {
+		if (card.getValue() instanceof CartaPokemon) {
+			CartaPokemon carta = (CartaPokemon) card.getValue();
+			tip = new Tooltip(String.format("HP: %d\nEnergia: %d", carta.getHpAtual(), carta.getEnergiaAtual()));
+		}
 	}
 
 	public void setCardViewObserver(CardViewListener obs) {
