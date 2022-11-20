@@ -29,8 +29,8 @@ public class Game {
 	}
 
 	private void nextPhase() {
-		if (currentPhase == 5) currentPhase = 0;
 		currentPhase++;
+		if (currentPhase == 4) currentPhase = 0;
 	}
 
 	public int getPokemonsJ1() {
@@ -141,19 +141,19 @@ public class Game {
 		String text;
 
 		if (currentPhase == 1) {
-			text = "FASE ATUAL: J1 baixa cartas.";
+			text = "J1 baixa cartas";
 		}
 		else if (currentPhase == 2) {
-			text = "FASE ATUAL: J2 baixa cartas.";
+			text = "J2 baixa cartas";
 		}
 		else if (currentPhase == 3) {
-			text = "FASE ATUAL: J1 carrega energia e ataca.";
+			text = "J1 ataca";
 		}
 		else {
-			text = "FASE ATUAL: J2 carrega energia e ataca.";
+			text = "J2 ataca";
 		}
 
-		PlacarView.getInstance().setLabelFaseAtual(text);
+		PlacarView.getInstance().setFieldFaseAtual(text);
 	}
 	
 	public void addGameListener(GameListener listener) {
