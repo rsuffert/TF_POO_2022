@@ -7,12 +7,14 @@ public class Card {
 	private String id;
 	private String imageId;
 	private boolean faceUp;
+	private Carta carta;
 	private final PropertyChangeSupport pcs;
 
 	public Card(String anId, String anImageId) {
 		id = anId;
 		imageId = anImageId;
 		faceUp = true;
+		carta = getNewInstance();
 		pcs = new PropertyChangeSupport(this);
 	}
 
@@ -25,6 +27,10 @@ public class Card {
 	}
 
 	public Carta getValue() {
+		return carta;
+	}
+
+	private Carta getNewInstance() {
 		switch (imageId) {
 			case "img1":  return new PokemonAgua("Blastoise", "Hydro Pump", Carta.Raridade.RARA, 140, 60, 4);
 			case "img2":  return new PokemonAgua("Croconaw", "Bite", Carta.Raridade.RARA, 90, 60, 3);

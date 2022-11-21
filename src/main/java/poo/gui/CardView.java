@@ -1,8 +1,10 @@
 package poo.gui;
 
+import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import poo.modelo.Card;
@@ -29,16 +31,18 @@ public class CardView extends Button implements PropertyChangeListener {
 			if (observer != null) {
 				observer.handle(new CardViewEvent(thisCardView));
 			}
+			updateTooltip();
 		});
 
 		tip = new Tooltip();
 		this.setTooltip(tip);
-		tip.setOnShowing(e -> this.updateTooltip()); // updates tooltip before showing
+		tip.setOnShowing(e -> updateTooltip());
 	}
 
 	public void updateTooltip() {
 		if (card.getValue() instanceof CartaPokemon) {
 			CartaPokemon carta = (CartaPokemon) card.getValue();
+			System.out.println(carta.getEnergiaAtual());
 			tip.setText(String.format("HP: %d\nEnergia: %d\nRaridade: %s", carta.getHpAtual(), carta.getEnergiaAtual(), carta.getRaridade().toString()));
 		}
 		else {

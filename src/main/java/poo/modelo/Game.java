@@ -3,6 +3,7 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import poo.gui.DeckView;
 import poo.gui.PlacarView;
 
 //import poo.modelo.GameEvent.Action;
@@ -68,11 +69,19 @@ public class Game {
 			}
 		}
 
-		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Entrou no play()");
-		for (var observer : observers) {
-			observer.notify(gameEvent);
+		System.out.println("Entrou no play");
+		if (deckAcionado == deckJ1) {
+			System.out.println("deckJ1 acionado");
 		}
-		return;
+		else if (deckAcionado == deckJ2) {
+			System.out.println("deckJ2 acionado");
+		}
+		else if (deckAcionado == mesaJ1) {
+			System.out.println("mesaJ1 acionado");
+		}
+		else if (deckAcionado == mesaJ2) {
+			System.out.println("mesaJ2 acionado");
+		}
 	}
 
 	// Acionada pelo botao de 'Baixar cartas'
@@ -154,6 +163,72 @@ public class Game {
 		}
 
 		PlacarView.getInstance().setFieldFaseAtual(text);
+	}
+
+	public void restart() {
+		System.out.println("\nRestart acionado");
+		deckJ1 = new CardDeck(false);
+		deckJ2 = new CardDeck(false);
+		mesaJ1 = new CardDeck(true);
+		mesaJ2 = new CardDeck(true);
+		currentPhase = 1;
+		this.updatePlacarViewLabel();
+		
+		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.RESTART, "");
+		for (var observer : observers) {
+			observer.notify(gameEvent);
+		}
+	}
+
+	public void addEnergy(int jogador) {
+		if (jogador != 1 && jogador != 2) return;
+		else if (jogador == 1 && currentPhase != 3) { // J1 adicionando energia fora de hora
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "J1 não pode atacar/adicionar energia neste momento");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+		else if (jogador == 2 && currentPhase != 4) { // J2 adicionando energia fora de hora
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "J2 não pode atacar/adicionar energia neste momento");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+		
+		CardDeck deckAcionado = jogador == 1? mesaJ1 : mesaJ2;
+		Card cartaSelecionada = deckAcionado.getSelectedCard();
+		if (cartaSelecionada == null || cartaSelecionada.getValue() instanceof CartaEnergia) { // jogador nao selecionou a carta alvo ou ela eh uma carta de energia
+			System.out.println("Carta selecionada (addEnergy): " + cartaSelecionada);
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon para aplicar energia");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+		
+		CartaPokemon cartaAlvo = (CartaPokemon) deckAcionado.getSelectedCard().getValue(); // tudo certo, adicionar energia a essa carta
+		System.out.println("Todos os testes OK. Carregando energia");
+		System.out.println("Carta alvo: " + cartaAlvo.getNome());
+		boolean energiaConsumida = deckAcionado.removeEnergyCard();
+		if (!energiaConsumida) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Não há cartas de energia na mesa");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+		else {
+			System.out.println("Energia sendo adicionada");
+			cartaAlvo.carregarEnergias(1); // carregar a energia na carta
+			System.out.println(cartaAlvo.getEnergiaAtual());
+			// renderizar novamente a mesa
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, null);
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+		}
 	}
 	
 	public void addGameListener(GameListener listener) {

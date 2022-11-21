@@ -23,10 +23,10 @@ public class CardDeck {
 	public CardDeck(boolean mesa) {
 		cartas = new ArrayList<>();
 		selected = null;
-		Random r = new Random();
 
-		if (!mesa) {
+		if (!mesa) { // adicionar cartas
 			pokemonsNoDeck = N_POKEMON_CARDS;
+			Random r = new Random();
 			for (int i = 0; i < N_POKEMON_CARDS; i++) {
 				int n = r.nextInt(35) + 1;
 				Card c = new Card("C" + n, "img" + n);
@@ -41,6 +41,8 @@ public class CardDeck {
 		else pokemonsNoDeck = 0;
 
 		observers = new LinkedList<>();
+
+		System.out.println("Deck construido");
 	}
 
 	public List<Card> getCards() {
@@ -89,13 +91,15 @@ public class CardDeck {
 		}
 	}
 
-	public int getNroCartasEnergia() {
-		int n = 0;
+	public boolean removeEnergyCard() {
 		for (Card c : cartas) {
-			if (c.getValue() instanceof CartaEnergia) n++;
+			if (c.getValue() instanceof CartaEnergia) {
+				cartas.remove(c);
+				return true;
+			}
 		}
 
-		return n;
+		return false;
 	}
 
 	public void addCard(Card card) {
