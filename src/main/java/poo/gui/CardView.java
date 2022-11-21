@@ -1,10 +1,8 @@
 package poo.gui;
 
-import java.beans.EventHandler;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import poo.modelo.Card;
