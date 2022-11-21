@@ -3,11 +3,7 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
-import poo.gui.DeckView;
 import poo.gui.PlacarView;
-
-//import poo.modelo.GameEvent.Action;
-//import poo.modelo.GameEvent.Target;
 
 public class Game {
 	private static Game game = new Game();
