@@ -3,6 +3,7 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import poo.gui.GameWindow;
 import poo.gui.PlacarView;
 
 public class Game {
@@ -121,14 +122,14 @@ public class Game {
 			return;
 		}
 		else if (jogador == 1 && currentPhase != 1) {
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Não é a vez do J1 baixar cartas.");
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, String.format("Não é a vez do %s baixar cartas.", GameWindow.getNomeJ1()));
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
 			return;
 		}
 		else if (jogador == 2 && currentPhase != 2) {
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Não é a vez do J2 baixar cartas.");
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, String.format("Não é a vez do %s baixar cartas.", GameWindow.getNomeJ2()));
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
@@ -169,16 +170,16 @@ public class Game {
 		String text;
 
 		if (currentPhase == 1) {
-			text = "J1 baixa cartas";
+			text = GameWindow.getNomeJ1() + " baixa cartas";
 		}
 		else if (currentPhase == 2) {
-			text = "J2 baixa cartas";
+			text = GameWindow.getNomeJ2() + " baixa cartas";
 		}
 		else if (currentPhase == 3) {
-			text = "J1 ataca";
+			text = GameWindow.getNomeJ1() + " ataca";
 		}
 		else {
-			text = "J2 ataca";
+			text = GameWindow.getNomeJ2() + " ataca";
 		}
 
 		PlacarView.getInstance().setFieldFaseAtual(text);
@@ -202,14 +203,14 @@ public class Game {
 	public void addEnergy(int jogador) {
 		if (jogador != 1 && jogador != 2) return;
 		else if (jogador == 1 && currentPhase != 3) { // J1 adicionando energia fora de hora
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "J1 não pode atacar/adicionar energia neste momento");
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, String.format("%s não pode atacar/adicionar energia neste momento", GameWindow.getNomeJ1()));
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
 			return;
 		}
 		else if (jogador == 2 && currentPhase != 4) { // J2 adicionando energia fora de hora
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "J2 não pode atacar/adicionar energia neste momento");
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, String.format("%s não pode atacar/adicionar energia neste momento", GameWindow.getNomeJ2()));
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
