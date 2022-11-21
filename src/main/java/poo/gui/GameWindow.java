@@ -1,5 +1,7 @@
 package poo.gui;
 
+import javax.swing.JOptionPane;
+
 import javafx.application.Application;
 //import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,7 +21,8 @@ import poo.modelo.GameEvent;
 import poo.modelo.GameListener;
 
 public class GameWindow extends Application implements GameListener {
-
+	public static String nomeJ1, nomeJ2;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -28,14 +31,17 @@ public class GameWindow extends Application implements GameListener {
 	public void start(Stage primaryStage) {
 		Game.getInstance().addGameListener(this);
 
+		nomeJ1 = JOptionPane.showInputDialog(null, "Digite o nome do J1");
+		nomeJ2 = JOptionPane.showInputDialog(null, "Agora, digite o nome do J2");
+
 		primaryStage.setTitle("Batalha de Cartas");
 
 		Group root = new Group();
 
         TabPane tabPane = new TabPane();
 
-        Tab tab1 = new Tab("Jogador 1");
-        Tab tab2 = new Tab("Jogador 2");
+        Tab tab1 = new Tab("Jogador " + nomeJ1);
+        Tab tab2 = new Tab("Jogador " + nomeJ2);
         Tab tab3 = new Tab("Mesa");
         //Tab tab4 = new Tab("Mesa Jogador 2");
 
@@ -125,7 +131,7 @@ public class GameWindow extends Application implements GameListener {
 
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
+	}
 	
 
 	@Override
@@ -151,9 +157,9 @@ public class GameWindow extends Application implements GameListener {
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
 					if (Game.getInstance().getPokemonsJ1() == 0) {
-						text += "O jogador 2 ganhou!";
+						text += String.format("O jogador %s ganhou!", nomeJ2);
 					} else {
-						text += "O jogador 1 ganhou!";
+						text += String.format("O jogador %s ganhou!", nomeJ1);
 					}
 					alert = new Alert(AlertType.WARNING);
 					alert.setTitle("GAME OVER");
@@ -178,4 +184,10 @@ public class GameWindow extends Application implements GameListener {
 		}
 	}
 
+	public static String getNomeJ1() {
+		return nomeJ1;
+	}
+	public static String getNomeJ2() {
+		return nomeJ2;
+	}
 }

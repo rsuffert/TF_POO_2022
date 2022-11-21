@@ -36,13 +36,13 @@ public class PlacarView extends GridPane implements GameListener {
 		ptsJ1.setEditable(false);
 		ptsJ2.setEditable(false);
 
-		this.add(new Label("Pokémons Jogador 1:"), 0, 0);
+		this.add(new Label(String.format("Pokémons de %s: ", GameWindow.getNomeJ1())), 0, 0);
 		this.add(ptsJ1, 1, 0);
-		this.add(new Label("Pokémons Jogador 2:"), 0, 1);
+		this.add(new Label(String.format("Pokémons de %s: ", GameWindow.getNomeJ2())), 0, 1);
 		this.add(ptsJ2, 1, 1);
 		
 		this.add(new Label("Fase atual:"), 0, 2);
-		faseAtual = new TextField("J1 baixa cartas");
+		faseAtual = new TextField(GameWindow.getNomeJ1() + " baixa cartas");
 		faseAtual.setEditable(false);
 		this.add(faseAtual, 1, 2);
 
