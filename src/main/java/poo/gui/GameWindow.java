@@ -10,6 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
@@ -95,6 +96,18 @@ public class GameWindow extends Application implements GameListener {
 		Button butEndTurn = new Button("End turn");
 		grid3.add(butEndTurn, 0, 1);
 		butEndTurn.setOnAction(e -> Game.getInstance().endTurn());
+
+		Button butRestart = new Button("Restart\ngame");
+		grid3.add(butRestart, 1, 1);
+		butRestart.setOnAction(e -> Game.getInstance().restart());
+
+		Button butAddEnergyJ1 = new Button("Add energy");
+		grid3.add(butAddEnergyJ1, 1, 0);
+		butAddEnergyJ1.setOnAction(e -> Game.getInstance().addEnergy(1));
+
+		Button butAddEnergyJ2 = new Button("Add energy");
+		grid3.add(butAddEnergyJ2, 1, 2);
+		butAddEnergyJ2.setOnAction(e -> Game.getInstance().addEnergy(2));
 
 		DeckView mesaJ2 = new DeckView(-2);
 		ScrollPane sdM2 = new ScrollPane();
