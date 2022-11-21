@@ -54,29 +54,60 @@ public class Game {
 		return mesaJ2;
 	}
 
-	public void play(CardDeck deckAcionado) {
+	public void play() {
 		if (currentPhase < 3) { // nao deve fazer nada aqui
-			return;
-		}
-		else if (deckAcionado == deckJ1 || deckAcionado == deckJ2) { // nao permitir mais cliques nas cartas dos decks
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Cartas não podem ser baixadas neste momento.");
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Ataques não podem ser feitos neste momento");
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
+			return;
 		}
 
-		System.out.println("Entrou no play");
-		if (deckAcionado == deckJ1) {
-			System.out.println("deckJ1 acionado");
+		CardDeck deckAtaque = currentPhase == 3? deckJ1 : deckJ2;
+		CardDeck deckDefesa = currentPhase == 4? deckJ1 : deckJ2;
+
+		if (deckAtaque.getSelectedCard() == null || deckDefesa == null) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon em cada deck par atacar");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
 		}
-		else if (deckAcionado == deckJ2) {
-			System.out.println("deckJ2 acionado");
+		else if (deckAtaque.getSelectedCard().getValue() instanceof CartaEnergia || 
+				 deckDefesa.getSelectedCard().getValue() instanceof CartaEnergia) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Cartas de energia não podem atacar/defender");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
 		}
-		else if (deckAcionado == mesaJ1) {
-			System.out.println("mesaJ1 acionado");
+
+		CartaPokemon pokemonAtaque = (CartaPokemon) deckAtaque.getSelectedCard().getValue();
+		CartaPokemon pokemonDefesa = (CartaPokemon) deckDefesa.getSelectedCard().getValue();
+
+		boolean energiaSuficiente = pokemonAtaque.ataque(pokemonDefesa);
+		if (!energiaSuficiente) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "O Pokémon de ataque nao tem energia suficiente");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
 		}
-		else if (deckAcionado == mesaJ2) {
-			System.out.println("mesaJ2 acionado");
+		else { // o ataque foi bem sucedido, e podem ter havido mudancas
+			int nroMortos = deckDefesa.removeKilled(); //remover mortos do deck de defesa
+			deckAtaque.addEnergyForEachKill(nroMortos); //adicionar energia por cada Pokemon morto
+			//renderizar novamente a mesa
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, null);
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+
+			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, "Ataque efetuado com sucesso!");
+			for (var observer : observers) {
+				observer.notify(gameEvent2);
+			}
+
+			nextPhase();
 		}
 	}
 
@@ -106,16 +137,8 @@ public class Game {
 		
 		if (jogador != 1 && jogador != 2) return;
 		
-		CardDeck deckJogador;
-		CardDeck mesaJogador;
-		if (jogador == 1) {
-			deckJogador = deckJ1;
-			mesaJogador = mesaJ1;
-		}
-		else {
-			deckJogador = deckJ2;
-			mesaJogador = mesaJ2;
-		}
+		CardDeck deckJogador = jogador == 1? deckJ1 : deckJ2;
+		CardDeck mesaJogador = jogador == 1? mesaJ1 : mesaJ2; 
 		
 		mesaJogador.addCard( deckJogador.getSelectedCard() );
 		deckJogador.removeSel();

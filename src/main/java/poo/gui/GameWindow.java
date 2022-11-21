@@ -161,6 +161,13 @@ public class GameWindow extends Application implements GameListener {
 					alert.setContentText(text);
 					alert.showAndWait();
 					break;
+				case SHOWMESSAGE:
+					alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle(null);
+					alert.setHeaderText(null);
+					alert.setContentText(eg.getArg());
+					alert.showAndWait();
+					break;
 				case REMOVESEL:
 					// Esse evento não vem para cá
 				case SHOWTABLE:

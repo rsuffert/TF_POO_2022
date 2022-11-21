@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import poo.modelo.Game;
 import poo.modelo.GameEvent;
 import poo.modelo.GameListener;
+import javafx.scene.control.Button;
 
 public class PlacarView extends GridPane implements GameListener {
 	private static PlacarView placarView = new PlacarView();
@@ -44,6 +45,10 @@ public class PlacarView extends GridPane implements GameListener {
 		faseAtual = new TextField("J1 baixa cartas");
 		faseAtual.setEditable(false);
 		this.add(faseAtual, 1, 2);
+
+		Button butAtaque = new Button("Ataque");
+		this.add(butAtaque, 0, 3);
+		butAtaque.setOnAction(e -> Game.getInstance().play());
 	}
 
 	public void setFieldFaseAtual(String text) {
