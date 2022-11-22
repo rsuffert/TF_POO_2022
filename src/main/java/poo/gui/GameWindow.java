@@ -31,8 +31,10 @@ public class GameWindow extends Application implements GameListener {
 	public void start(Stage primaryStage) {
 		Game.getInstance().addGameListener(this);
 
-		nomeJ1 = JOptionPane.showInputDialog(null, "Digite o nome do J1");
-		nomeJ2 = JOptionPane.showInputDialog(null, "Agora, digite o nome do J2");
+		String nomeJ1Digitado = JOptionPane.showInputDialog(null, "Digite o nome do J1");
+		String nomeJ2Digitado = JOptionPane.showInputDialog(null, "Agora, digite o nome do J2");
+		nomeJ1 = nomeJ1Digitado != null? nomeJ1Digitado : "J1";
+		nomeJ2 = nomeJ2Digitado != null? nomeJ2Digitado : "J2";
 
 		primaryStage.setTitle("Batalha de Cartas");
 
@@ -157,7 +159,7 @@ public class GameWindow extends Application implements GameListener {
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
 					if (Game.getInstance().getPokemonsJ1() == 0) {
-						text += String.format("O jogador %s ganhou!", nomeJ2);
+						text += String.format("O jogado %s ganhou!", nomeJ2);
 					} else {
 						text += String.format("O jogador %s ganhou!", nomeJ1);
 					}
