@@ -67,7 +67,7 @@ public class DeckView extends HBox implements CardViewListener, GameListener {
 		for (Card card : cDeck.getCards()) {
 			System.out.println("show>" + card);
 			CardView cv = new CardView(card);
-			//cv.setCardViewObserver(this);
+			cv.setCardViewObserver(this);
 			this.getChildren().add(cv);
 		}
 		System.out.println("Deck atualizado");
