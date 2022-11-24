@@ -56,6 +56,8 @@ public class Game {
 	}
 
 	public void play() {
+		System.out.println("\n\nENTROU NO PLAY");
+		
 		if (currentPhase < 3) { // nao deve fazer nada aqui
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Ataques não podem ser feitos neste momento");
 			for (var observer : observers) {
@@ -64,11 +66,21 @@ public class Game {
 			return;
 		}
 
-		CardDeck deckAtaque = currentPhase == 3? deckJ1 : deckJ2;
-		CardDeck deckDefesa = currentPhase == 4? deckJ1 : deckJ2;
+		CardDeck deckAtaque = currentPhase == 3? mesaJ1 : mesaJ2;
+		CardDeck deckDefesa = currentPhase == 4? mesaJ1 : mesaJ2;
 
-		if (deckAtaque.getSelectedCard() == null || deckDefesa == null) {
-			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon em cada deck par atacar");
+		if (deckAtaque == mesaJ1) System.out.println("Atacante: mesaJ1");
+		else if (deckAtaque == mesaJ2) System.out.println("Atacante: mesaJ2");
+		else System.out.println("Atacante: outro deck");
+
+		if (deckDefesa == mesaJ1) System.out.println("Defensor: mesaJ1");
+		else if (deckDefesa == mesaJ2) System.out.println("Defensor: mesaJ2");
+		else System.out.println("Defensor: outro deck");
+
+		if (deckAtaque.getSelectedCard() == null || deckDefesa.getSelectedCard() == null) {
+			System.out.println(deckAtaque.getSelectedCard());
+			System.out.println(deckDefesa.getSelectedCard());
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon em cada deck para atacar");
 			for (var observer : observers) {
 				observer.notify(gameEvent);
 			}
@@ -103,12 +115,21 @@ public class Game {
 				observer.notify(gameEvent);
 			}
 
-			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, "Ataque efetuado com sucesso!");
+			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, 
+								                 String.format("Ataque efetuado com sucesso.\nAtacante: %s\nDefensor: %s",
+												 pokemonAtaque.getNome(), pokemonDefesa.getNome()));
 			for (var observer : observers) {
 				observer.notify(gameEvent2);
 			}
 
-			nextPhase();
+			if (nroMortos > 0) {
+				GameEvent gameEvent3 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE,
+													 String.format("Você ganhou %d cartas de energia por eliminar %d Pokémons rivais", 
+													 nroMortos * CardDeck.ENERGY_CARDS_WHEN_KILL, nroMortos));	
+				for (var observer : observers) {
+					observer.notify(gameEvent3);
+				}
+			}
 		}
 	}
 
