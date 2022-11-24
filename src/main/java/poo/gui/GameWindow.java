@@ -47,9 +47,9 @@ public class GameWindow extends Application implements GameListener {
         Tab tab3 = new Tab("Mesa");
         //Tab tab4 = new Tab("Mesa Jogador 2");
 
+		tabPane.getTabs().add(tab3);
         tabPane.getTabs().add(tab1);
         tabPane.getTabs().add(tab2);
-        tabPane.getTabs().add(tab3);
 
 
 		GridPane grid1 = new GridPane();
@@ -60,7 +60,7 @@ public class GameWindow extends Application implements GameListener {
 
 		DeckView deckJ1 = new DeckView(1);
 		ScrollPane sd1 = new ScrollPane();
-		sd1.setPrefSize(1200, 250);
+		sd1.setPrefSize(1000, 250);
 		sd1.setContent(deckJ1);
 		grid1.add(sd1, 0, 0);
 
@@ -77,7 +77,7 @@ public class GameWindow extends Application implements GameListener {
 		
 		DeckView deckJ2 = new DeckView(2);
 		ScrollPane sd2 = new ScrollPane();
-		sd2.setPrefSize(1200, 250);
+		sd2.setPrefSize(1000, 250);
 		sd2.setContent(deckJ2);
 		grid2.add(sd2, 0, 2);
 
@@ -93,7 +93,7 @@ public class GameWindow extends Application implements GameListener {
 
 		DeckView mesaJ1 = new DeckView(-1);
 		ScrollPane sdM1 = new ScrollPane();
-		sdM1.setPrefSize(1200, 250);
+		sdM1.setPrefSize(1200, 225);
 		sdM1.setContent(mesaJ1);
 		grid3.add(sdM1, 0, 0);
 
@@ -104,21 +104,21 @@ public class GameWindow extends Application implements GameListener {
 		grid3.add(butEndTurn, 0, 1);
 		butEndTurn.setOnAction(e -> Game.getInstance().endTurn());
 
-		Button butRestart = new Button("Restart\ngame");
+		Button butRestart = new Button("Reset\ngame");
 		grid3.add(butRestart, 1, 1);
 		butRestart.setOnAction(e -> Game.getInstance().restart());
 
-		Button butAddEnergyJ1 = new Button("Add energy");
+		Button butAddEnergyJ1 = new Button("Add\nenergy");
 		grid3.add(butAddEnergyJ1, 1, 0);
 		butAddEnergyJ1.setOnAction(e -> Game.getInstance().addEnergy(1));
 
-		Button butAddEnergyJ2 = new Button("Add energy");
+		Button butAddEnergyJ2 = new Button("Add\nenergy");
 		grid3.add(butAddEnergyJ2, 1, 2);
 		butAddEnergyJ2.setOnAction(e -> Game.getInstance().addEnergy(2));
 
 		DeckView mesaJ2 = new DeckView(-2);
 		ScrollPane sdM2 = new ScrollPane();
-		sdM2.setPrefSize(1200, 250);
+		sdM2.setPrefSize(1200, 225);
 		sdM2.setContent(mesaJ2);
 		grid3.add(sdM2, 0, 2);
 
@@ -131,6 +131,8 @@ public class GameWindow extends Application implements GameListener {
 		
         Scene scene = new Scene(root);
 
+		primaryStage.setResizable(true);
+		primaryStage.setFullScreen(true);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
