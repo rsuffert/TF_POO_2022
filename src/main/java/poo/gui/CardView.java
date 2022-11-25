@@ -29,7 +29,6 @@ public class CardView extends Button implements PropertyChangeListener {
 			if (observer != null) {
 				observer.handle(new CardViewEvent(thisCardView));
 			}
-			updateTooltip();
 		});
 
 		tip = new Tooltip();
