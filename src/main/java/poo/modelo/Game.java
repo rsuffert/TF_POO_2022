@@ -116,7 +116,7 @@ public class Game {
 			}
 
 			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, 
-								                 String.format("Ataque efetuado com sucesso.\nAtacante: %s\nDefensor: %s",
+								                 String.format("Ataque efetuado com sucesso. Seu turno foi encerrado.\nAtacante: %s\nDefensor: %s",
 												 pokemonAtaque.getNome(), pokemonDefesa.getNome()));
 			for (var observer : observers) {
 				observer.notify(gameEvent2);
@@ -130,6 +130,8 @@ public class Game {
 					observer.notify(gameEvent3);
 				}
 			}
+
+			endTurn();
 		}
 	}
 
