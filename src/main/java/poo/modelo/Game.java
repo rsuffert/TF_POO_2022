@@ -13,9 +13,7 @@ public class Game {
 	private int currentPhase; // 1 = J1 baixa cartas e 'end turn' | 2 = J2 baixa cartas e 'end turn' | 3 = J1 ataca/carrega energias e 'end turn' | 4 = J2 ataca/carrega energias e 'end turn'
 	private List<GameListener> observers;
 	
-	public static Game getInstance() {
-		return game;
-	}
+	public static Game getInstance() { return game; }
 
 	private Game() {
 		deckJ1 = new CardDeck(false);
@@ -39,21 +37,15 @@ public class Game {
 		return deckJ2.getPokemonsNoDeck() + mesaJ2.getPokemonsNoDeck();
 	}
 
-	public CardDeck getDeckJ1() {
-		return deckJ1;
-	}
+	public CardDeck getDeckJ1() { return deckJ1; }
 
-	public CardDeck getDeckJ2() {
-		return deckJ2;
-	}
+	public CardDeck getDeckJ2() { return deckJ2; }
 
-	public CardDeck getMesaJ1() {
-		return mesaJ1;
-	}
+	public CardDeck getMesaJ1() { return mesaJ1; }
 
-	public CardDeck getMesaJ2() {
-		return mesaJ2;
-	}
+	public CardDeck getMesaJ2() { return mesaJ2; }
+
+	public int getFaseAtual() { return currentPhase; }
 
 	public void play() {
 		System.out.println("\n\nENTROU NO PLAY");
@@ -90,7 +82,7 @@ public class Game {
 		CartaPokemon pokemonAtaque = (CartaPokemon) deckAtaque.getSelectedCard().getValue();
 		CartaPokemon pokemonDefesa = (CartaPokemon) deckDefesa.getSelectedCard().getValue();
 
-		boolean energiaSuficiente = pokemonAtaque.ataque(pokemonDefesa);
+		boolean energiaSuficiente = pokemonAtaque.atacar(pokemonDefesa);
 		if (!energiaSuficiente) {
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "O Pokémon de ataque nao tem energia suficiente");
 			for (var observer : observers) {
@@ -186,18 +178,10 @@ public class Game {
 	public void updatePlacarViewLabel() {
 		String text;
 
-		if (currentPhase == 1) {
-			text = GameWindow.getNomeJ1() + " baixa cartas";
-		}
-		else if (currentPhase == 2) {
-			text = GameWindow.getNomeJ2() + " baixa cartas";
-		}
-		else if (currentPhase == 3) {
-			text = GameWindow.getNomeJ1() + " ataca";
-		}
-		else {
-			text = GameWindow.getNomeJ2() + " ataca";
-		}
+		if (currentPhase == 1) text = GameWindow.getNomeJ1() + " baixa cartas";
+		else if (currentPhase == 2) text = GameWindow.getNomeJ2() + " baixa cartas";
+		else if (currentPhase == 3) text = GameWindow.getNomeJ1() + " ataca";
+		else text = GameWindow.getNomeJ2() + " ataca";
 
 		PlacarView.getInstance().setFieldFaseAtual(text);
 	}
@@ -272,11 +256,5 @@ public class Game {
 		}
 	}
 	
-	public void addGameListener(GameListener listener) {
-		observers.add(listener);
-	}
-
-	public int getFaseAtual() {
-		return currentPhase;
-	}
+	public void addGameListener(GameListener listener) { observers.add(listener); }
 }

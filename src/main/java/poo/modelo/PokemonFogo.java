@@ -9,7 +9,7 @@ public class PokemonFogo extends CartaPokemon {
     }
 
     @Override
-    public boolean ataque (CartaPokemon outro) {
+    public boolean atacar (CartaPokemon outro) {
         Ataque ataque = super.getAtaque();
         
         // verificar se tem energia para fazer o ataque e, se tiver, conusmir e continuar

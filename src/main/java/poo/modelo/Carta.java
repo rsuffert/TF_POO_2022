@@ -1,7 +1,7 @@
 package poo.modelo;
 
 public abstract class Carta {
-    public enum Raridade { COMUM, INCOMUM, RARA, ULTRA_RARA }
+    public enum Raridade { COMUM, INCOMUM, RARA }
     
     private String nome;
     private Raridade raridade;
@@ -11,11 +11,7 @@ public abstract class Carta {
         this.raridade = raridade;
     }
 
-    public String getNome() {
-        return this.nome;
-    }
+    public String getNome() { return this.nome; }
 
-    public Raridade getRaridade() {
-        return this.raridade;
-    }
+    public Raridade getRaridade() { return this.raridade; }
 }

@@ -10,13 +10,9 @@ public class ImageFactory {
 	private static ImageFactory imgf = new ImageFactory();
 	private Map<String, Image> images;
 
-	public static ImageFactory getInstance() {
-		return imgf;
-	}
+	public static ImageFactory getInstance() { return imgf; }
 
-	private ImageFactory() {
-		images = new HashMap<>();
-	}
+	private ImageFactory() { images = new HashMap<>(); }
 
 	private String id2File(String imgId) {
 		switch (imgId) {

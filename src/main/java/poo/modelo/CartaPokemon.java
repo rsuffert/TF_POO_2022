@@ -21,18 +21,14 @@ public abstract class CartaPokemon extends Carta {
         else ataque = new Ataque (nomeAtaque, 0, 0);
     }
 
-    public int getHpAtual() {
-        return this.hpAtual;
-    }
+    public int getHpAtual() { return this.hpAtual; }
 
     public void darDano(int dano) {
         if (dano <= this.hpAtual) this.hpAtual -= dano;
         else this.hpAtual = 0;
     }
 
-    public int getEnergiaAtual() {
-        return this.energiaAtual;
-    }
+    public int getEnergiaAtual() { return this.energiaAtual; }
 
     public boolean carregarEnergias(int energia) {
         if (energia > 0) {
@@ -52,10 +48,8 @@ public abstract class CartaPokemon extends Carta {
         return false;
     }
 
-    public Ataque getAtaque() {
-        return this.ataque;
-    }
+    public Ataque getAtaque() { return this.ataque; }
 
-    public abstract boolean ataque (CartaPokemon outro);
+    public abstract boolean atacar (CartaPokemon outro);
 }
 

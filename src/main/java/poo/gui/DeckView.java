@@ -9,8 +9,6 @@ import poo.modelo.CardDeck;
 import poo.modelo.Game;
 import poo.modelo.GameEvent;
 import poo.modelo.GameListener;
-//import poo.modelo.GameEvent.Action;
-//import poo.modelo.GameEvent.Target;
 
 public class DeckView extends HBox implements CardViewListener, GameListener {
 	private int jogador;

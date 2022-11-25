@@ -7,7 +7,7 @@ public class GameEvent extends EventObject {
 
 	public enum Target { DECK, GWIN }
 
-	public enum Action { INVPLAY, MUSTCLEAN, ENDGAME, REMOVESEL, SHOWTABLE, RESTART, SHOWMESSAGE }
+	public enum Action { INVPLAY, ENDGAME, REMOVESEL, SHOWTABLE, RESTART, SHOWMESSAGE }
 
 	private Target target;
 	private Action action;
@@ -20,19 +20,11 @@ public class GameEvent extends EventObject {
 		arg = anArg;
 	}
 
-	public Target getTarget() {
-		return target;
-	}
+	public Target getTarget() { return target; }
 
-	public Action getAction() {
-		return action;
-	}
+	public Action getAction() { return action; }
 
-	public String getArg() {
-		return arg;
-	}
+	public String getArg() { return arg; }
 
-	public String toString() {
-		return target + ":" + action + ":" + arg;
-	}
+	public String toString() { return target + ":" + action + ":" + arg; }
 }
