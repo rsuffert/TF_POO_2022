@@ -165,7 +165,7 @@ public class GameWindow extends Application implements GameListener {
 					} else {
 						text += String.format("O jogador %s ganhou!", nomeJ1);
 					}
-					alert = new Alert(AlertType.WARNING);
+					alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("GAME OVER");
 					alert.setHeaderText(null);
 					alert.setContentText(text);
