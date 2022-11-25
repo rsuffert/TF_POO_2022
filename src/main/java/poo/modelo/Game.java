@@ -3,11 +3,8 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import poo.gui.GameWindow;
 import poo.gui.PlacarView;
-import javax.swing.JOptionPane;
 
 public class Game {
 	private static Game game = new Game();

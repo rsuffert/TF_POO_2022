@@ -108,11 +108,11 @@ public class GameWindow extends Application implements GameListener {
 		grid3.add(butRestart, 1, 1);
 		butRestart.setOnAction(e -> Game.getInstance().restart());
 
-		Button butAddEnergyJ1 = new Button("Add\nenergy");
+		Button butAddEnergyJ1 = new Button("Adicionar\nenergia");
 		grid3.add(butAddEnergyJ1, 1, 0);
 		butAddEnergyJ1.setOnAction(e -> Game.getInstance().addEnergy(1));
 
-		Button butAddEnergyJ2 = new Button("Add\nenergy");
+		Button butAddEnergyJ2 = new Button("Adicionar\nenergia");
 		grid3.add(butAddEnergyJ2, 1, 2);
 		butAddEnergyJ2.setOnAction(e -> Game.getInstance().addEnergy(2));
 
