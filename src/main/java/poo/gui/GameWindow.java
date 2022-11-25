@@ -100,11 +100,11 @@ public class GameWindow extends Application implements GameListener {
 		PlacarView placar = PlacarView.getInstance();
 		grid3.add(placar, 0, 1);
 
-		Button butEndTurn = new Button("End turn");
+		Button butEndTurn = new Button("Finalizar\nturno");
 		grid3.add(butEndTurn, 0, 1);
 		butEndTurn.setOnAction(e -> Game.getInstance().endTurn());
 
-		Button butRestart = new Button("Reset\ngame");
+		Button butRestart = new Button("Reset");
 		grid3.add(butRestart, 1, 1);
 		butRestart.setOnAction(e -> Game.getInstance().restart());
 
@@ -132,7 +132,6 @@ public class GameWindow extends Application implements GameListener {
         Scene scene = new Scene(root);
 
 		primaryStage.setResizable(true);
-		primaryStage.setFullScreen(true);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
