@@ -3,8 +3,11 @@ package poo.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import poo.gui.GameWindow;
 import poo.gui.PlacarView;
+import javax.swing.JOptionPane;
 
 public class Game {
 	private static Game game = new Game();
@@ -69,14 +72,6 @@ public class Game {
 		CardDeck deckAtaque = currentPhase == 3? mesaJ1 : mesaJ2;
 		CardDeck deckDefesa = currentPhase == 4? mesaJ1 : mesaJ2;
 
-		if (deckAtaque == mesaJ1) System.out.println("Atacante: mesaJ1");
-		else if (deckAtaque == mesaJ2) System.out.println("Atacante: mesaJ2");
-		else System.out.println("Atacante: outro deck");
-
-		if (deckDefesa == mesaJ1) System.out.println("Defensor: mesaJ1");
-		else if (deckDefesa == mesaJ2) System.out.println("Defensor: mesaJ2");
-		else System.out.println("Defensor: outro deck");
-
 		if (deckAtaque.getSelectedCard() == null || deckDefesa.getSelectedCard() == null) {
 			System.out.println(deckAtaque.getSelectedCard());
 			System.out.println(deckDefesa.getSelectedCard());
@@ -137,6 +132,8 @@ public class Game {
 
 	// Acionada pelo botao de 'Baixar cartas'
 	public void baixarCartas(int jogador) {
+		System.out.println("\n\nbaixarCartas() acionado");
+		
 		if (currentPhase != 1 && currentPhase != 2) { // cartas so podem ser baixadas nas fases 1 (J1) e 2 (J2)
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Cartas não podem ser baixadas neste momento.");
 			for (var observer : observers) {
@@ -162,7 +159,7 @@ public class Game {
 		if (jogador != 1 && jogador != 2) return;
 		
 		CardDeck deckJogador = jogador == 1? deckJ1 : deckJ2;
-		CardDeck mesaJogador = jogador == 1? mesaJ1 : mesaJ2; 
+		CardDeck mesaJogador = jogador == 1? mesaJ1 : mesaJ2;
 		
 		mesaJogador.addCard( deckJogador.getSelectedCard() );
 		deckJogador.removeSel();
@@ -209,7 +206,6 @@ public class Game {
 	}
 
 	public void restart() {
-		System.out.println("\nRestart acionado");
 		deckJ1 = new CardDeck(false);
 		deckJ2 = new CardDeck(false);
 		mesaJ1 = new CardDeck(true);
@@ -220,6 +216,11 @@ public class Game {
 		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.RESTART, "");
 		for (var observer : observers) {
 			observer.notify(gameEvent);
+		}
+
+		GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, "O jogo foi reiniciado\nTodos os decks e estatísticas foram resetados");
+		for (var observer : observers) {
+			observer.notify(gameEvent2);
 		}
 	}
 
