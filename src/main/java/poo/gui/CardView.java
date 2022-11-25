@@ -18,8 +18,7 @@ public class CardView extends Button implements PropertyChangeListener {
 	public CardView(Card aCard) {
 		super("", ImageFactory.getInstance().createImage("imgBck"));
 
-		if (aCard.isFacedUp())
-		   this.setGraphic(ImageFactory.getInstance().createImage(aCard.getImageId()));
+		this.setGraphic(ImageFactory.getInstance().createImage(aCard.getImageId()));
 		
 		card = aCard;
 		card.addPropertyChangeListener(this);
@@ -58,10 +57,6 @@ public class CardView extends Button implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (card.isFacedUp()) {
-			this.setGraphic(ImageFactory.getInstance().createImage(card.getImageId()));
-		} else {
-			this.setGraphic(ImageFactory.getInstance().createImage("imgBck"));
-		}		
+		this.setGraphic(ImageFactory.getInstance().createImage(card.getImageId()));	
 	}
 }

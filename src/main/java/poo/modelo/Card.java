@@ -6,14 +6,12 @@ import java.beans.PropertyChangeSupport;
 public class Card {
 	private String id;
 	private String imageId;
-	private boolean faceUp;
 	private Carta carta;
 	private final PropertyChangeSupport pcs;
 
 	public Card(String anId, String anImageId) {
 		id = anId;
 		imageId = anImageId;
-		faceUp = true;
 		carta = getNewInstance();
 		pcs = new PropertyChangeSupport(this);
 	}
@@ -70,16 +68,6 @@ public class Card {
 			case "img36": return new CartaEnergia();
 			default:      throw new IllegalArgumentException("Invalid image Id");
 		}
-	}
-
-	public boolean isFacedUp() {
-		return faceUp;
-	}
-
-	public void flip() {
-		boolean old = faceUp;
-		faceUp = !faceUp;
-		pcs.firePropertyChange("facedUp", old, faceUp);
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {

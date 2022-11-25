@@ -150,13 +150,6 @@ public class GameWindow extends Application implements GameListener {
 					alert.setContentText(eg.getArg());
 					alert.showAndWait();
 					break;
-				case MUSTCLEAN:
-					alert = new Alert(AlertType.WARNING);
-					alert.setTitle("ATENÇÃO!");
-					alert.setHeaderText(null);
-					alert.setContentText("Utilize o botao \"Clean\"");
-					alert.showAndWait();
-					break;
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
 					if (Game.getInstance().getPokemonsJ1() == 0) {
