@@ -27,8 +27,10 @@ public class Card {
 	public boolean isFacingUp() { return faceUp; }
 
 	public void flipCard() {
+		System.out.println("\t\t*flipCard() acionado em " + carta.getNome());
 		boolean old = faceUp;
 		faceUp = !faceUp;
+		System.out.println("\t\tVirando... isFacingUp()==" + this.isFacingUp());
 		pcs.firePropertyChange("facedUp", old, faceUp);
 	}
 

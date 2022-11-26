@@ -19,12 +19,14 @@ public class CardDeck {
 	private Card selected;
 	private List<GameListener> observers;
 	private int pokemonsNoDeck;
-	private boolean facingUp;
+	private boolean allFacingUp;
+	private boolean mesa;
 
 	public CardDeck(boolean mesa) {
 		cartas = new ArrayList<>();
 		selected = null;
-		facingUp = true;
+		allFacingUp = true;
+		this.mesa = mesa;
 
 		if (!mesa) { // adicionar cartas
 			pokemonsNoDeck = N_POKEMON_CARDS;
@@ -45,8 +47,6 @@ public class CardDeck {
 		}
 
 		observers = new LinkedList<>();
-
-		System.out.println("Deck construido");
 	}
 
 	public List<Card> getCards() { return Collections.unmodifiableList(cartas); }
@@ -59,14 +59,19 @@ public class CardDeck {
 
 	public void setSelectedCard(Card card) { selected = card; }
 
-	public boolean isFacingUp() { return facingUp; }
+	public boolean isFacingUp() { return allFacingUp; }
 
 	public void flipDeck() {
+		System.out.println("flipDeck() acionado");
+
 		for (Card c : cartas) {
-			c.flipCard();
+			if (!c.isFacingUp()) {
+				System.out.println("Desvirando a carta " + c.getValue().getNome());
+				c.flipCard();
+			}
 		}
 
-		facingUp = !facingUp;
+		allFacingUp = true;
 	}
 
 	public void removeSel() {
@@ -119,8 +124,14 @@ public class CardDeck {
 	}
 
 	public void addCard(Card card) {
-		System.out.println("add: "+ card);
+		System.out.println("\t*addCard() acionado para " + card.getValue().getNome());
 		cartas.add(card);
+		if (mesa) { // adicionar as cartas na msea viradas para baixo
+			Card cartaAdicionada = cartas.get(cartas.size()-1);
+			System.out.println("\tCarta foi para a mesa. Carta " + cartaAdicionada.getValue().getNome() + " recuperada. isFacingUp==" + cartaAdicionada.isFacingUp());
+			cartas.get(cartas.size()-1).flipCard();
+			allFacingUp = false;
+		}
 		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, "");
 		for (var observer : observers) {
 			observer.notify(gameEvent);

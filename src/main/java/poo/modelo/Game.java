@@ -48,8 +48,6 @@ public class Game {
 	public int getFaseAtual() { return currentPhase; }
 
 	public void play() {
-		System.out.println("\n\nENTROU NO PLAY");
-		
 		if (currentPhase < 3) { // nao deve fazer nada aqui
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Ataques não podem ser feitos neste momento");
 			for (var observer : observers) {
@@ -62,8 +60,6 @@ public class Game {
 		CardDeck deckDefesa = currentPhase == 4? mesaJ1 : mesaJ2;
 
 		if (deckAtaque.getSelectedCard() == null || deckDefesa.getSelectedCard() == null) {
-			System.out.println(deckAtaque.getSelectedCard());
-			System.out.println(deckDefesa.getSelectedCard());
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon em cada deck para atacar");
 			for (var observer : observers) {
 				observer.notify(gameEvent);
@@ -121,8 +117,7 @@ public class Game {
 
 	// Acionada pelo botao de 'Baixar cartas'
 	public void baixarCartas(int jogador) {
-		System.out.println("\n\nbaixarCartas() acionado");
-		
+		System.out.println("*baixarCartas() acionado");
 		if (currentPhase != 1 && currentPhase != 2) { // cartas so podem ser baixadas nas fases 1 (J1) e 2 (J2)
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Cartas não podem ser baixadas neste momento.");
 			for (var observer : observers) {
@@ -152,12 +147,15 @@ public class Game {
 		
 		mesaJogador.addCard( deckJogador.getSelectedCard() );
 		deckJogador.removeSel();
+
+		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, "");
+		for (var observer : observers) {
+			observer.notify(gameEvent);
+		}
 	}
 
 	// Acionado pelo botao "End Turn"
 	public void endTurn() {
-		if (currentPhase == 1) mesaJ1.flipDeck();
-		else if (currentPhase == 2) mesaJ2.flipDeck();
 
 		// checar final do jogo
 		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0) {
@@ -177,7 +175,7 @@ public class Game {
 		nextPhase();
 		this.updatePlacarViewLabel();
 
-		if (currentPhase == 3 || currentPhase == 1) {
+		if (currentPhase == 3) { // quando comecarem as fases de ataque, tornar os decks visiveis
 			mesaJ1.flipDeck();
 			mesaJ2.flipDeck();
 		}
@@ -214,9 +212,6 @@ public class Game {
 	}
 
 	public void addEnergy(int jogador) {
-		System.out.println("\n\n\nENTROU NO ADDENERGY()");
-		System.out.println("Jogador atual: " + jogador);
-		System.out.println("Fase: " + currentPhase);
 		
 		if (jogador != 1 && jogador != 2) return;
 		else if (jogador == 1 && currentPhase != 3) { // J1 adicionando energia fora de hora
@@ -237,7 +232,6 @@ public class Game {
 		CardDeck deckAcionado = jogador == 1? mesaJ1 : mesaJ2;
 		Card cartaSelecionada = deckAcionado.getSelectedCard();
 		if (cartaSelecionada == null || cartaSelecionada.getValue() instanceof CartaEnergia) { // jogador nao selecionou a carta alvo ou ela eh uma carta de energia
-			System.out.println("Carta selecionada (addEnergy): " + cartaSelecionada);
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta de Pokémon para aplicar energia");
 			for (var observer : observers) {
 				observer.notify(gameEvent);
@@ -246,8 +240,6 @@ public class Game {
 		}
 		
 		CartaPokemon cartaAlvo = (CartaPokemon) deckAcionado.getSelectedCard().getValue(); // tudo certo, adicionar energia a essa carta
-		System.out.println("Todos os testes OK. Carregando energia");
-		System.out.println("Carta alvo: " + cartaAlvo.getNome());
 		boolean energiaConsumida = deckAcionado.removeEnergyCard();
 		if (!energiaConsumida) {
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Não há cartas de energia na mesa");
@@ -257,9 +249,7 @@ public class Game {
 			return;
 		}
 		else {
-			System.out.println("Energia sendo adicionada");
 			cartaAlvo.carregarEnergias(1); // carregar a energia na carta
-			System.out.println(cartaAlvo.getEnergiaAtual());
 			// renderizar novamente a mesa
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, null);
 			for (var observer : observers) {

@@ -17,9 +17,7 @@ public class CardView extends Button implements PropertyChangeListener {
 	private boolean facingUp;
 
 	public CardView(Card aCard) {
-		super("", ImageFactory.getInstance().createImage("imgBck"));
-
-		this.setGraphic(ImageFactory.getInstance().createImage(aCard.getImageId()));
+		super("", ImageFactory.getInstance().createImage(aCard.getImageId()));
 		
 		facingUp = true;
 		card = aCard;
@@ -41,23 +39,29 @@ public class CardView extends Button implements PropertyChangeListener {
 		return card;
 	}
 
+	public boolean isFacingUp() { return facingUp; }
+
 	public void flip() {
-		if (facingUp) {
+		System.out.println("\t\t\t\t*CardView.flip() acionado");
+		System.out.println("\t\t\t\tisFacingUp()==" + card.isFacingUp());
+		if (!card.isFacingUp()) {
+			System.out.println("\t\t\t\tVirando a carta para baixo");
 			this.setGraphic(ImageFactory.getInstance().createImage("imgBck"));
 			this.setTooltip(null); // disable tooltip
 		}
 		else {
+			System.out.println("\t\t\t\tVirando a carta para cima");
 			this.setGraphic(ImageFactory.getInstance().createImage(card.getImageId()));
 			this.setTooltip(tip); // enable tooltip
 		}
 
 		facingUp = !facingUp;
+		System.out.println("\t\t\t\tResultado: isFacingUp()==" + card.isFacingUp());
 	}
 
 	public void updateTooltip() {
 		if (card.getValue() instanceof CartaPokemon) {
 			CartaPokemon carta = (CartaPokemon) card.getValue();
-			System.out.println(carta.getEnergiaAtual());
 			tip.setText(String.format("HP: %d\nEnergia: %d\nRaridade: %s", carta.getHpAtual(), carta.getEnergiaAtual(), carta.getRaridade().toString()));
 		}
 		else {
@@ -71,6 +75,7 @@ public class CardView extends Button implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("\t\t\t*CardView.propertyChange() acionado.");
 		this.flip();
 	}
 }

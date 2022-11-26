@@ -60,20 +60,15 @@ public class DeckView extends HBox implements CardViewListener, GameListener {
 		//cDeck.addGameListener(this);
 
 		this.getChildren().clear();
-
-		System.out.println("m1.len>" + cDeck.getNumberOfCards());
 		for (Card card : cDeck.getCards()) {
-			System.out.println("show>" + card);
 			CardView cv = new CardView(card);
 			cv.setCardViewObserver(this);
 			this.getChildren().add(cv);
 		}
-		System.out.println("Deck atualizado");
 	}
 
 	@Override
 	public void notify(GameEvent event) {
-		System.out.println("ev: "+ event);
 		if (event.getTarget() != GameEvent.Target.DECK) {
 			return;
 		}
@@ -86,16 +81,12 @@ public class DeckView extends HBox implements CardViewListener, GameListener {
 		if (event.getAction() == GameEvent.Action.RESTART) {
 			if (jogador == 1) {
 				cDeck = Game.getInstance().getDeckJ1();
-				System.out.println("\n\nDeck J1 reiniciado");
 			} else if (jogador == 2) {
 				cDeck = Game.getInstance().getDeckJ2();
-				System.out.println("\n\nDeck J2 reiniciado");
 			} else if (jogador == -1) {
 				cDeck = Game.getInstance().getMesaJ1();
-				System.out.println("\n\nMesa J1 reiniciado");
 			} else if (jogador == -2) {
 				cDeck = Game.getInstance().getMesaJ2();
-				System.out.println("\n\nMesa J2 reiniciado");
 			}
 			
 			cDeck.addGameListener(this);
