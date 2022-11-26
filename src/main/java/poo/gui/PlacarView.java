@@ -51,9 +51,7 @@ public class PlacarView extends GridPane implements GameListener {
 		butAtaque.setOnAction(e -> Game.getInstance().play());
 	}
 
-	public void setFieldFaseAtual(String text) {
-		faseAtual.setText(text);
-	}
+	public void setFieldFaseAtual(String text) { faseAtual.setText(text); }
 
 	@Override
 	public void notify(GameEvent event) {

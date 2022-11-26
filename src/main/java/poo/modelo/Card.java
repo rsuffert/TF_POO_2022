@@ -16,17 +16,11 @@ public class Card {
 		pcs = new PropertyChangeSupport(this);
 	}
 
-	public String getId() {
-		return id;
-	}
+	public String getId() { return id; }
 
-	public String getImageId() {
-		return imageId;
-	}
+	public String getImageId() { return imageId; }
 
-	public Carta getValue() {
-		return carta;
-	}
+	public Carta getValue() { return carta; }
 
 	private Carta getNewInstance() {
 		switch (imageId) {
@@ -70,8 +64,8 @@ public class Card {
 		}
 	}
 
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		pcs.addPropertyChangeListener(listener);
+	public void addPropertyChangeListener(PropertyChangeListener listener) { 
+		pcs.addPropertyChangeListener(listener); 
 	}
 
 	public void removePropertyChangeListener(PropertyChangeListener listener) {

@@ -35,6 +35,10 @@ public class CardView extends Button implements PropertyChangeListener {
 		tip.setOnShowing(e -> updateTooltip());
 	}
 
+	public Card getCard() {
+		return card;
+	}
+
 	public void updateTooltip() {
 		if (card.getValue() instanceof CartaPokemon) {
 			CartaPokemon carta = (CartaPokemon) card.getValue();
@@ -49,11 +53,6 @@ public class CardView extends Button implements PropertyChangeListener {
 	public void setCardViewObserver(CardViewListener obs) {
 		observer = obs;
 	}
-
-	public Card getCard() {
-		return card;
-	}
-
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {

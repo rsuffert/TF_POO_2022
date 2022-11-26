@@ -45,13 +45,15 @@ public class CardDeck {
 		System.out.println("Deck construido");
 	}
 
-	public List<Card> getCards() {
-		return Collections.unmodifiableList(cartas);
-	}
+	public List<Card> getCards() { return Collections.unmodifiableList(cartas); }
 
-	public int getNumberOfCards() {
-		return cartas.size();
-	}
+	public int getNumberOfCards() { return cartas.size(); }
+
+	public int getPokemonsNoDeck() { return pokemonsNoDeck; }
+
+	public Card getSelectedCard() { return selected; }
+
+	public void setSelectedCard(Card card) { selected = card; }
 
 	public void removeSel() {
 		if (selected == null) {
@@ -109,18 +111,6 @@ public class CardDeck {
 		for (var observer : observers) {
 			observer.notify(gameEvent);
 		}
-	}
-
-	public int getPokemonsNoDeck() {
-		return pokemonsNoDeck;
-	}
-
-	public void setSelectedCard(Card card) {
-		selected = card;
-	}
-
-	public Card getSelectedCard() {
-		return selected;
 	}
 
 	public void addGameListener(GameListener listener) {

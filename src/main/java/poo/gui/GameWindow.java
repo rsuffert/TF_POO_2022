@@ -60,7 +60,7 @@ public class GameWindow extends Application implements GameListener {
 
 		DeckView deckJ1 = new DeckView(1);
 		ScrollPane sd1 = new ScrollPane();
-		sd1.setPrefSize(1000, 250);
+		sd1.setPrefSize(1000, 275);
 		sd1.setContent(deckJ1);
 		grid1.add(sd1, 0, 0);
 
@@ -74,10 +74,9 @@ public class GameWindow extends Application implements GameListener {
 		grid2.setVgap(10);
 		grid2.setPadding(new Insets(25, 25, 25, 25));
 
-		
 		DeckView deckJ2 = new DeckView(2);
 		ScrollPane sd2 = new ScrollPane();
-		sd2.setPrefSize(1000, 250);
+		sd2.setPrefSize(1000, 275);
 		sd2.setContent(deckJ2);
 		grid2.add(sd2, 0, 2);
 
@@ -126,7 +125,6 @@ public class GameWindow extends Application implements GameListener {
         tab2.setContent(grid2);
         tab3.setContent(grid3);
 
-
 		root.getChildren().add(tabPane);
 		
         Scene scene = new Scene(root);
@@ -170,20 +168,13 @@ public class GameWindow extends Application implements GameListener {
 					alert.setContentText(eg.getArg());
 					alert.showAndWait();
 					break;
-				case REMOVESEL:
-					// Esse evento não vem para cá
-				case SHOWTABLE:
-					// Esse evento não vem para cá
-				case RESTART:
-					// Esse evento não vem para cá
+				case REMOVESEL: // Esse evento não vem para cá
+				case SHOWTABLE: // Esse evento não vem para cá
+				case RESTART: // Esse evento não vem para cá
 				}
 		}
 	}
 
-	public static String getNomeJ1() {
-		return nomeJ1;
-	}
-	public static String getNomeJ2() {
-		return nomeJ2;
-	}
+	public static String getNomeJ1() { return nomeJ1; }
+	public static String getNomeJ2() { return nomeJ2; }
 }
