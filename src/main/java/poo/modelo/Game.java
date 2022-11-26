@@ -26,7 +26,7 @@ public class Game {
 
 	private void nextPhase() {
 		currentPhase++;
-		if (currentPhase == 4) currentPhase = 0;
+		if (currentPhase == 5) currentPhase = 1;
 	}
 
 	public int getPokemonsJ1() {
@@ -206,6 +206,10 @@ public class Game {
 	}
 
 	public void addEnergy(int jogador) {
+		System.out.println("\n\n\nENTROU NO ADDENERGY()");
+		System.out.println("Jogador atual: " + jogador);
+		System.out.println("Fase: " + currentPhase);
+		
 		if (jogador != 1 && jogador != 2) return;
 		else if (jogador == 1 && currentPhase != 3) { // J1 adicionando energia fora de hora
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, String.format("%s não pode atacar/adicionar energia neste momento", GameWindow.getNomeJ1()));
