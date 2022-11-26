@@ -156,6 +156,9 @@ public class Game {
 
 	// Acionado pelo botao "End Turn"
 	public void endTurn() {
+		if (currentPhase == 1) mesaJ1.flipDeck();
+		else if (currentPhase == 2) mesaJ2.flipDeck();
+
 		// checar final do jogo
 		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0) {
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.ENDGAME, "");
@@ -173,6 +176,11 @@ public class Game {
 		
 		nextPhase();
 		this.updatePlacarViewLabel();
+
+		if (currentPhase == 3 || currentPhase == 1) {
+			mesaJ1.flipDeck();
+			mesaJ2.flipDeck();
+		}
 	}
 
 	public void updatePlacarViewLabel() {

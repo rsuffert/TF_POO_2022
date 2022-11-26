@@ -7,11 +7,13 @@ public class Card {
 	private String id;
 	private String imageId;
 	private Carta carta;
+	private boolean faceUp; 
 	private final PropertyChangeSupport pcs;
 
 	public Card(String anId, String anImageId) {
 		id = anId;
 		imageId = anImageId;
+		faceUp = true;
 		carta = getNewInstance();
 		pcs = new PropertyChangeSupport(this);
 	}
@@ -21,6 +23,14 @@ public class Card {
 	public String getImageId() { return imageId; }
 
 	public Carta getValue() { return carta; }
+
+	public boolean isFacingUp() { return faceUp; }
+
+	public void flipCard() {
+		boolean old = faceUp;
+		faceUp = !faceUp;
+		pcs.firePropertyChange("facedUp", old, faceUp);
+	}
 
 	private Carta getNewInstance() {
 		switch (imageId) {

@@ -19,10 +19,12 @@ public class CardDeck {
 	private Card selected;
 	private List<GameListener> observers;
 	private int pokemonsNoDeck;
+	private boolean facingUp;
 
 	public CardDeck(boolean mesa) {
 		cartas = new ArrayList<>();
 		selected = null;
+		facingUp = true;
 
 		if (!mesa) { // adicionar cartas
 			pokemonsNoDeck = N_POKEMON_CARDS;
@@ -38,7 +40,9 @@ public class CardDeck {
 				cartas.add(new Card("Energia", "img36"));
 			}
 		}
-		else pokemonsNoDeck = 0;
+		else {
+			pokemonsNoDeck = 0;
+		}
 
 		observers = new LinkedList<>();
 
@@ -54,6 +58,16 @@ public class CardDeck {
 	public Card getSelectedCard() { return selected; }
 
 	public void setSelectedCard(Card card) { selected = card; }
+
+	public boolean isFacingUp() { return facingUp; }
+
+	public void flipDeck() {
+		for (Card c : cartas) {
+			c.flipCard();
+		}
+
+		facingUp = !facingUp;
+	}
 
 	public void removeSel() {
 		if (selected == null) {
