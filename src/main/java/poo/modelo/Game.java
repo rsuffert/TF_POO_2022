@@ -12,6 +12,7 @@ public class Game {
 	private CardDeck mesaJ1, mesaJ2;
 	private int currentPhase; // 1 = J1 baixa cartas e 'end turn' | 2 = J2 baixa cartas e 'end turn' | 3 = J1 ataca/carrega energias e 'end turn' | 4 = J2 ataca/carrega energias e 'end turn'
 	private List<GameListener> observers;
+	private int addedCardsMJ1, addedCardsMJ2;
 	
 	public static Game getInstance() { return game; }
 
@@ -22,6 +23,7 @@ public class Game {
 		mesaJ2 = new CardDeck(true);
 		currentPhase = 1;
 		observers = new LinkedList<>();
+		addedCardsMJ1 = addedCardsMJ2 = 0;
 	}
 
 	private void nextPhase() {
@@ -35,6 +37,14 @@ public class Game {
 
 	public int getPokemonsJ2() {
 		return deckJ2.getPokemonsNoDeck() + mesaJ2.getPokemonsNoDeck();
+	}
+
+	public int getEnergyCardsJ1() {
+		return deckJ1.getNumberOfEnergy() + mesaJ1.getNumberOfEnergy();
+	}
+
+	public int getEnergyCardsJ2() {
+		return deckJ2.getNumberOfEnergy() + mesaJ2.getNumberOfEnergy();
 	}
 
 	public CardDeck getDeckJ1() { return deckJ1; }
@@ -100,7 +110,7 @@ public class Game {
 			}
 
 			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, 
-								                 String.format("Ataque efetuado com sucesso. Seu turno foi encerrado.\nAtacante: %s\nDefensor: %s",
+								                 String.format("Ataque efetuado com sucesso. SEU TURNO FOI ENCERRADO.\nAtacante: %s\nDefensor: %s",
 												 pokemonAtaque.getNome(), pokemonDefesa.getNome()));
 			for (var observer : observers) {
 				observer.notify(gameEvent2);
@@ -152,15 +162,20 @@ public class Game {
 		
 		mesaJogador.addCard( deckJogador.getSelectedCard() );
 		deckJogador.removeSel();
+
+		if (jogador == 1) addedCardsMJ1++;
+		else addedCardsMJ2++;
 	}
 
 	// Acionado pelo botao "End Turn"
 	public void endTurn() {
-		if (currentPhase == 1) mesaJ1.flipDeck();
-		else if (currentPhase == 2) mesaJ2.flipDeck();
+		mesaJ1.flipAddedCards(addedCardsMJ1);
+		mesaJ2.flipAddedCards(addedCardsMJ2);
+		addedCardsMJ1 = addedCardsMJ2 = 0;
 
 		// checar final do jogo
-		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0) {
+		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0 ||
+		    this.getEnergyCardsJ1() == 0 || this.getEnergyCardsJ2() == 0) {
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.ENDGAME, "");
 			for (var observer : observers) {
 				observer.notify(gameEvent);
@@ -177,9 +192,9 @@ public class Game {
 		nextPhase();
 		this.updatePlacarViewLabel();
 
-		if (currentPhase == 3 || currentPhase == 1) {
-			mesaJ1.flipDeck();
-			mesaJ2.flipDeck();
+		if (currentPhase == 3) {
+			mesaJ1.flipDeckUp();
+			mesaJ2.flipDeckUp();
 		}
 	}
 

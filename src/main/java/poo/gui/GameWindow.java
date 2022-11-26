@@ -150,8 +150,8 @@ public class GameWindow extends Application implements GameListener {
 					break;
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
-					if (Game.getInstance().getPokemonsJ1() == 0) {
-						text += String.format("O jogado %s ganhou!", nomeJ2);
+					if (Game.getInstance().getPokemonsJ1() == 0 || Game.getInstance().getEnergyCardsJ1() == 0) {
+						text += String.format("O jogador %s ganhou!", nomeJ2);
 					} else {
 						text += String.format("O jogador %s ganhou!", nomeJ1);
 					}

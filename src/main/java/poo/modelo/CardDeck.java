@@ -19,12 +19,12 @@ public class CardDeck {
 	private Card selected;
 	private List<GameListener> observers;
 	private int pokemonsNoDeck;
-	private boolean facingUp;
+	private boolean allFacingUp;
 
 	public CardDeck(boolean mesa) {
 		cartas = new ArrayList<>();
 		selected = null;
-		facingUp = true;
+		allFacingUp = true;
 
 		if (!mesa) { // adicionar cartas
 			pokemonsNoDeck = N_POKEMON_CARDS;
@@ -59,14 +59,14 @@ public class CardDeck {
 
 	public void setSelectedCard(Card card) { selected = card; }
 
-	public boolean isFacingUp() { return facingUp; }
+	public boolean isFacingUp() { return allFacingUp; }
 
-	public void flipDeck() {
+	public void flipDeckUp() {
 		for (Card c : cartas) {
-			c.flipCard();
+			if (!c.isFacingUp()) c.flipCard();
 		}
 
-		facingUp = !facingUp;
+		allFacingUp = true;
 	}
 
 	public void removeSel() {
@@ -99,6 +99,19 @@ public class CardDeck {
 		return pokemonsRemovidos;
 	}
 
+	public int getNumberOfEnergy() {
+		int n = 0;
+		for (Card c : cartas) {
+			if (c.getValue() instanceof CartaEnergia) n++;
+			else { // eh carta de pokemon
+				CartaPokemon carta = (CartaPokemon) c.getValue();
+				n += carta.getEnergiaAtual();
+			}
+		}
+
+		return n;
+	}
+
 	public void addEnergyForEachKill(int kills) {
 		int n = kills * ENERGY_CARDS_WHEN_KILL;
 		
@@ -124,6 +137,14 @@ public class CardDeck {
 		GameEvent gameEvent = new GameEvent(this, GameEvent.Target.DECK, GameEvent.Action.SHOWTABLE, "");
 		for (var observer : observers) {
 			observer.notify(gameEvent);
+		}
+	}
+
+	public void flipAddedCards(int nCardsAdded) {
+		for (int i=cartas.size(); i>cartas.size()-nCardsAdded; i--) {
+			Card carta = cartas.remove(i-1);
+			carta.flipCard();
+			cartas.add(i-1, carta);
 		}
 	}
 
