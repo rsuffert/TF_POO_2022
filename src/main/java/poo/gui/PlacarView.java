@@ -46,7 +46,7 @@ public class PlacarView extends GridPane implements GameListener {
 		faseAtual.setEditable(false);
 		this.add(faseAtual, 1, 2);
 
-		Button butAtaque = new Button("Ataque");
+		Button butAtaque = new Button("ATACAR");
 		this.add(butAtaque, 0, 3);
 		butAtaque.setOnAction(e -> Game.getInstance().play());
 	}
