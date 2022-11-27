@@ -5,7 +5,6 @@ import java.util.List;
 
 import poo.gui.GameWindow;
 import poo.gui.PlacarView;
-import poo.modelo.GameEvent.Target;
 
 public class Game {
 	private static Game game = new Game();
