@@ -99,19 +99,6 @@ public class CardDeck {
 		return pokemonsRemovidos;
 	}
 
-	public int getNumberOfEnergy() {
-		int n = 0;
-		for (Card c : cartas) {
-			if (c.getValue() instanceof CartaEnergia) n++;
-			else { // eh carta de pokemon
-				CartaPokemon carta = (CartaPokemon) c.getValue();
-				n += carta.getEnergiaAtual();
-			}
-		}
-
-		return n;
-	}
-
 	public void addEnergyForEachKill(int kills) {
 		int n = kills * ENERGY_CARDS_WHEN_KILL;
 		

@@ -51,14 +51,6 @@ public class Game {
 		return deckJ2.getPokemonsNoDeck() + mesaJ2.getPokemonsNoDeck();
 	}
 
-	public int getEnergyCardsJ1() {
-		return deckJ1.getNumberOfEnergy() + mesaJ1.getNumberOfEnergy();
-	}
-
-	public int getEnergyCardsJ2() {
-		return deckJ2.getNumberOfEnergy() + mesaJ2.getNumberOfEnergy();
-	}
-
 	public CardDeck getDeckJ1() { return deckJ1; }
 
 	public CardDeck getDeckJ2() { return deckJ2; }
