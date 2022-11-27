@@ -184,6 +184,37 @@ public class Game {
 		else addedCardsMJ2++;
 	}
 
+	public boolean hasEnergyToAttack(int player) throws IllegalArgumentException {
+		if (player != 1 && player != 2) throw new IllegalArgumentException("Player must be 1 or 2");
+
+		CardDeck deckJogador = player == 1? deckJ1 : deckJ2;
+		CardDeck mesaJogador = player == 1? mesaJ1 : mesaJ2;
+
+		int totalCartasEnergia = deckJogador.getNumberOfEnergy() + mesaJogador.getNumberOfEnergy();
+
+		// primeiro, verificar se ha alguma carta no deck que pode efetuar ataques com as energias disponiveis
+		List<Card> cartasNoDeck = deckJogador.getCards();
+		for (Card c : cartasNoDeck) {
+			if (c.getValue() instanceof CartaPokemon) {
+				CartaPokemon carta = (CartaPokemon) c.getValue();
+				int energiaDisponivel = carta.getEnergiaAtual() + totalCartasEnergia;
+				if (energiaDisponivel >= carta.getAtaque().ENERGIAS_PARA_ATACAR) return true;
+			}
+		}
+
+		// depois, verificar se ha alguma carta na mesa que pode efetuar ataques com as energias disponiveis
+		List<Card> cartasNaMesa = mesaJogador.getCards();
+		for (Card c : cartasNaMesa) {
+			if (c.getValue() instanceof CartaPokemon) {
+				CartaPokemon carta = (CartaPokemon) c.getValue();
+				int energiaDisponivel = carta.getEnergiaAtual() + totalCartasEnergia;
+				if (energiaDisponivel >= carta.getAtaque().ENERGIAS_PARA_ATACAR) return true;
+			}
+		}
+
+		return false;
+	}
+
 	// Acionado pelo botao "End Turn"
 	public void endTurn() {
 		if ( (currentPhase == 1 && addedCardsMJ1 == 0 && deckJ1.getNumberOfCards() > 0) ||
@@ -202,7 +233,7 @@ public class Game {
 
 		// checar final do jogo
 		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0 ||
-		    this.getEnergyCardsJ1() == 0 || this.getEnergyCardsJ2() == 0) {
+		    !this.hasEnergyToAttack(1) || !this.hasEnergyToAttack(2)) {
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.ENDGAME, "");
 			for (var observer : observers) {
 				observer.notify(gameEvent);

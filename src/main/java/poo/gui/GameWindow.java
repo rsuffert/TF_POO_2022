@@ -150,10 +150,20 @@ public class GameWindow extends Application implements GameListener {
 					break;
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
-					if (Game.getInstance().getPokemonsJ1() == 0 || Game.getInstance().getEnergyCardsJ1() == 0) {
+					if (Game.getInstance().getPokemonsJ1() == 0 || 
+					   (!Game.getInstance().hasEnergyToAttack(1) && Game.getInstance().hasEnergyToAttack(2)) ) {
 						text += String.format("O jogador %s ganhou!\n", nomeJ2);
-					} else {
+						if (!Game.getInstance().hasEnergyToAttack(1) && Game.getInstance().hasEnergyToAttack(2)) {
+							text += String.format("O jogador %s ficou sem energias\n", nomeJ1);
+						}
+					} else if (Game.getInstance().getPokemonsJ2() == 0 || 
+					          (!Game.getInstance().hasEnergyToAttack(2) && Game.getInstance().hasEnergyToAttack(1)) ) {
 						text += String.format("O jogador %s ganhou!\n", nomeJ1);
+						if (!Game.getInstance().hasEnergyToAttack(2) && Game.getInstance().hasEnergyToAttack(1)) {
+							text += String.format("O jogador %s ficou sem energias\n", nomeJ2);
+						}
+					} else {
+						text += "Houve um empate!";
 					}
 					alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("GAME OVER");
@@ -178,7 +188,7 @@ public class GameWindow extends Application implements GameListener {
 				case REMOVESEL: // Esse evento não vem para cá
 				case SHOWTABLE: // Esse evento não vem para cá
 				case RESTART: // Esse evento não vem para cá
-				}
+			}
 		}
 	}
 

@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class CardDeck {
 	public static final int N_POKEMON_CARDS = 5;
-	public static final int N_ENERGY_CARDS = 10;
+	public static final int N_ENERGY_CARDS = 2;
 	public static final int ENERGY_CARDS_WHEN_KILL = 3;
 	public static final int NCARDS = N_POKEMON_CARDS + N_ENERGY_CARDS;
 
