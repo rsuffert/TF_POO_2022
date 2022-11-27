@@ -5,6 +5,7 @@ import java.util.List;
 
 import poo.gui.GameWindow;
 import poo.gui.PlacarView;
+import poo.modelo.GameEvent.Target;
 
 public class Game {
 	private static Game game = new Game();
@@ -13,6 +14,7 @@ public class Game {
 	private int currentPhase; // 1 = J1 baixa cartas e 'end turn' | 2 = J2 baixa cartas e 'end turn' | 3 = J1 ataca/carrega energias e 'end turn' | 4 = J2 ataca/carrega energias e 'end turn'
 	private List<GameListener> observers;
 	private int addedCardsMJ1, addedCardsMJ2;
+	private boolean mustEndTurn;
 	
 	public static Game getInstance() { return game; }
 
@@ -24,6 +26,7 @@ public class Game {
 		currentPhase = 1;
 		observers = new LinkedList<>();
 		addedCardsMJ1 = addedCardsMJ2 = 0;
+		mustEndTurn = false;
 	}
 
 	private void nextPhase() {
@@ -59,7 +62,14 @@ public class Game {
 
 	public void play() {
 		System.out.println("\n\nENTROU NO PLAY");
-		
+		if (mustEndTurn) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.MUSTENDTURN, "");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+
 		if (currentPhase < 3) { // nao deve fazer nada aqui
 			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Ataques não podem ser feitos neste momento");
 			for (var observer : observers) {
@@ -110,7 +120,7 @@ public class Game {
 			}
 
 			GameEvent gameEvent2 = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, 
-								                 String.format("Ataque efetuado com sucesso. SEU TURNO FOI ENCERRADO.\nAtacante: %s\nDefensor: %s",
+								                 String.format("Ataque efetuado com sucesso.\nAGORA, VOCÊ DEVE ENCERRAR SEU TURNO!\nAtacante: %s\nDefensor: %s",
 												 pokemonAtaque.getNome(), pokemonDefesa.getNome()));
 			for (var observer : observers) {
 				observer.notify(gameEvent2);
@@ -125,7 +135,7 @@ public class Game {
 				}
 			}
 
-			endTurn();
+			mustEndTurn = true;
 		}
 	}
 
@@ -159,6 +169,14 @@ public class Game {
 		
 		CardDeck deckJogador = jogador == 1? deckJ1 : deckJ2;
 		CardDeck mesaJogador = jogador == 1? mesaJ1 : mesaJ2;
+
+		if (deckJogador.getSelectedCard() == null) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Selecione uma carta para baixar");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
 		
 		mesaJogador.addCard( deckJogador.getSelectedCard() );
 		deckJogador.removeSel();
@@ -172,6 +190,7 @@ public class Game {
 		mesaJ1.flipAddedCards(addedCardsMJ1);
 		mesaJ2.flipAddedCards(addedCardsMJ2);
 		addedCardsMJ1 = addedCardsMJ2 = 0;
+		mustEndTurn = false;
 
 		// checar final do jogo
 		if (this.getPokemonsJ1() == 0 || this.getPokemonsJ2() == 0 ||
@@ -229,6 +248,14 @@ public class Game {
 	}
 
 	public void addEnergy(int jogador) {
+		if (mustEndTurn) {
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.MUSTENDTURN, "");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+
 		System.out.println("\n\n\nENTROU NO ADDENERGY()");
 		System.out.println("Jogador atual: " + jogador);
 		System.out.println("Fase: " + currentPhase);

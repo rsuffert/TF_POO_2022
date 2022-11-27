@@ -31,7 +31,7 @@ public class GameWindow extends Application implements GameListener {
 	public void start(Stage primaryStage) {
 		Game.getInstance().addGameListener(this);
 
-		String nomeJ1Digitado = JOptionPane.showInputDialog(null, "Digite o nome do J1");
+		String nomeJ1Digitado = JOptionPane.showInputDialog(null, "Bem-vindo ao Pokémon 2022!\nPara começar, digite o nome do J1");
 		String nomeJ2Digitado = JOptionPane.showInputDialog(null, "Agora, digite o nome do J2");
 		nomeJ1 = nomeJ1Digitado != null? nomeJ1Digitado : "J1";
 		nomeJ2 = nomeJ2Digitado != null? nomeJ2Digitado : "J2";
@@ -166,6 +166,12 @@ public class GameWindow extends Application implements GameListener {
 					alert.setTitle(null);
 					alert.setHeaderText(null);
 					alert.setContentText(eg.getArg());
+					alert.showAndWait();
+					break;
+				case MUSTENDTURN: 
+					alert = new Alert(AlertType.WARNING);
+					alert.setTitle("PRECISA ENCERRAR O TURNO");
+					alert.setHeaderText("Para prosseguir, você deve pasar a vez (encerrar seu turno).");
 					alert.showAndWait();
 					break;
 				case REMOVESEL: // Esse evento não vem para cá
