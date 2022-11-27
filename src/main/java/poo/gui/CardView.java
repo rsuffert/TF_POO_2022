@@ -17,9 +17,7 @@ public class CardView extends Button implements PropertyChangeListener {
 	private boolean facingUp;
 
 	public CardView(Card aCard) {
-		super("", ImageFactory.getInstance().createImage("imgBck"));
-
-		this.setGraphic(ImageFactory.getInstance().createImage(aCard.getImageId()));
+		super("", ImageFactory.getInstance().createImage(aCard.getImageId()));
 		
 		facingUp = true;
 		card = aCard;
@@ -37,9 +35,7 @@ public class CardView extends Button implements PropertyChangeListener {
 		tip.setOnShowing(e -> updateTooltip());
 	}
 
-	public Card getCard() {
-		return card;
-	}
+	public Card getCard() { return card; }
 
 	public void flip() {
 		if (facingUp) {
