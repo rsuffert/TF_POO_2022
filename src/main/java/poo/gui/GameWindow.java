@@ -150,20 +150,10 @@ public class GameWindow extends Application implements GameListener {
 					break;
 				case ENDGAME:
 					String text = "FIM DE JOGO!\n";
-					if (Game.getInstance().getPokemonsJ1() == 0 || 
-					   (!Game.getInstance().hasEnergyToAttack(1) && Game.getInstance().hasEnergyToAttack(2)) ) {
+					if (Game.getInstance().getPokemonsJ1() == 0) {
 						text += String.format("O jogador %s ganhou!\n", nomeJ2);
-						if (!Game.getInstance().hasEnergyToAttack(1) && Game.getInstance().hasEnergyToAttack(2)) {
-							text += String.format("O jogador %s ficou sem energias\n", nomeJ1);
-						}
-					} else if (Game.getInstance().getPokemonsJ2() == 0 || 
-					          (!Game.getInstance().hasEnergyToAttack(2) && Game.getInstance().hasEnergyToAttack(1)) ) {
-						text += String.format("O jogador %s ganhou!\n", nomeJ1);
-						if (!Game.getInstance().hasEnergyToAttack(2) && Game.getInstance().hasEnergyToAttack(1)) {
-							text += String.format("O jogador %s ficou sem energias\n", nomeJ2);
-						}
 					} else {
-						text += "Houve um empate!";
+						text += String.format("O jogador %s ganhou!\n", nomeJ1);
 					}
 					alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("GAME OVER");

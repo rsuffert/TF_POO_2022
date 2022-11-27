@@ -148,6 +148,10 @@ public class CardDeck {
 		}
 	}
 
+	public void addEnergyCard() {
+		cartas.add(new Card("Energia", "img36"));
+	}
+
 	public void addGameListener(GameListener listener) {
 		observers.add(listener);
 	}
