@@ -172,7 +172,7 @@ public class GameWindow extends Application implements GameListener {
 				case MUSTENDTURN: 
 					alert = new Alert(AlertType.WARNING);
 					alert.setTitle("PRECISA ENCERRAR O TURNO");
-					alert.setHeaderText("Para prosseguir, você deve pasar a vez (encerrar seu turno).");
+					alert.setHeaderText("Para prosseguir, você deve passar a vez (encerrar seu turno).");
 					alert.showAndWait();
 					break;
 				case REMOVESEL: // Esse evento não vem para cá
