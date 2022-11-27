@@ -218,6 +218,21 @@ public class Game {
 		
 		nextPhase();
 		this.updatePlacarViewLabel();
+		if (currentPhase == 1 && deckJ1.getNumberOfCards() == 0) {
+			nextPhase();
+			this.updatePlacarViewLabel();
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, String.format("Como %s não tem cartas em seu deck, seu turno de baixar cartas foi encerrado.", GameWindow.getNomeJ1()));
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+		}
+		else if (currentPhase == 2 && deckJ2.getNumberOfCards() == 0) {
+			nextPhase();
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.SHOWMESSAGE, String.format("Como %s não tem cartas em seu deck, seu turno de baixar cartas foi encerrado.", GameWindow.getNomeJ2()));
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+		}
 
 		if (currentPhase == 3) {
 			mesaJ1.flipDeckUp();
