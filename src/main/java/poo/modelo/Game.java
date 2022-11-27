@@ -186,6 +186,15 @@ public class Game {
 
 	// Acionado pelo botao "End Turn"
 	public void endTurn() {
+		if ( (currentPhase == 1 && addedCardsMJ1 == 0 && deckJ1.getNumberOfCards() > 0) ||
+			 (currentPhase == 2 && addedCardsMJ2 == 0 && deckJ2.getNumberOfCards() > 0)) { // se for a vez do J1 baixar cartas, ele nao baixar e tiver cartas para baixar
+			GameEvent gameEvent = new GameEvent(this, GameEvent.Target.GWIN, GameEvent.Action.INVPLAY, "Você precisa baixar ao menos uma carta");
+			for (var observer : observers) {
+				observer.notify(gameEvent);
+			}
+			return;
+		}
+
 		mesaJ1.flipAddedCards(addedCardsMJ1);
 		mesaJ2.flipAddedCards(addedCardsMJ2);
 		addedCardsMJ1 = addedCardsMJ2 = 0;
