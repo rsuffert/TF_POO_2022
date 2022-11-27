@@ -36,7 +36,7 @@ public class GameWindow extends Application implements GameListener {
 		nomeJ1 = nomeJ1Digitado != null? nomeJ1Digitado : "J1";
 		nomeJ2 = nomeJ2Digitado != null? nomeJ2Digitado : "J2";
 
-		primaryStage.setTitle("Batalha de Cartas");
+		primaryStage.setTitle("Batalha Pokémon");
 
 		Group root = new Group();
 
