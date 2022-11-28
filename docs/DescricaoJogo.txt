@@ -1,12 +1,30 @@
-Jogo: Batalha de Cartas
-Instruções:
-- O deck da parte superior da janela e o deck do jogador 1. O da parte inferior o do jogador 2.
-- O jogador 1 sempre joga primeiro
-- Na sua vez cada jogador escolhe uma carta para virar
-- O jogador que virar a carta de valor maior ganha a rodada (1 ponto)
-- O sistema verifica quem ganhou a rodada logo após o jogador 2 virar sua carta
-- Para iniciar a proxima rodada e necessario clicar o botao "clean"
-- Quando as cartas acabam o jogo termina
+Jogo: Batalha Pokémon
+
+Instruções (funcionamento do jogo): 
+    - O jogo é dividido em três abas: "Mesa", "Jogador 1" e "Jogador 2".
+        - A aba "Mesa" representa as cartas que foram mobilizadas na mesa e que podem atacar e ser atacadas. O deck na parte superior é o deck do Jogador 1, e o da parte inferior é o do Jogador 2;
+        - A aba "Jogador 1" representa as cartas na mão do Jogador 1;
+        - A aba "Jogador 2" representa as cartas na mão do Jogador 2.
+    - O jogo é dividido em um ciclo de quatro fases, que se reinicia sempre que termina a fase 4 (a fase atual é indicada em um mostrador no centro da tela, abaixo do placar):
+        Fases 1 e 2: os jogadores baixam as cartas que quiserem para a mesa. Para isso, devem clicar na carta e, em seguida, clicar em "Baixar carta", para cada carta que desejarem baixar, cada um em sua aba
+            - O jogador 1 efetua o procedimento acima na fase um e, quando terminar, clica em "Finalizar turno" para passar o jogo para a fase 2, em que o jogador 2 deve repetir o mesmo procedimento
+            - Não há limite de cartas que podem ser baixadas por rodada, mas é obrigatório baixar ao menos uma carta por rodada.
+        Fases 3 e 4: os jogadores efetuam os ataques (o jogador 1 na fase 3 e o jogador 2 na fase 4). Para isso, devem ser obedecidos dois estágios:
+            I. O jogador deve carrgar seu Pokémon com energia o suficiente para atacar, caso ele não tenha. Para isso, ele deve ter cartas de energia na sua mesa. Se tiver, basta clicar no Pokémon que irá receber a energia e, em seguida, em "Adicionar energia". A cada clique, uma carta de energia é retirada da mesa do jogador e adicionada ao Pokémon selecionado;
+            II. O jogador deve selecionar, em seu deck, um Pokémon com energia o suficiente para atacar e, no deck do adversário, um Pokémon qualquer para, então, clicar no botão "Atacar";
+                - Observações sobre os ataques: 
+                    - Existem Pokémons de quatro elementos, e cada um pode ter um desempenho melhor (dar o dobro do dano especificado na carta) ou pior (dar a metade do dano especificado na carta), dependendo do elemento do Pokémon que ele está atacando:
+                        - Pokémons de FOGO desempenham melhor contra Pokémons de planta e pior contra Pokémons de água;
+                        - Pokémons de ÁGUA desempenham melhor contra Pokémons de fogo e pior contra Pokémons de planta;
+                        - Pokémons de PLANTA desempenham melhor contra Pokémons de água e pior contra Pokémons de fogo;
+                        - Pokémons NEUTROS têm o mesmo desempenho, independentemente do elemento do Pokémon adversário.
+                    - Ao eliminar um Pokémon adversário, o jogo "premia" o jogador vencedor do ataque com 3 cartas de energia;
+                    - Cada vez que o ciclo de 4 fases se encerra, cada jogador recebe, em sua mão, uma carta de energia.
+    - O vencedor é o jogador que eliminar todos os Pokémons do adverário primeiro. Quando isso acontece, uma mensagem aparece na tela anunciando o vencedor e, ao receber a confirmação do usuário, o jogo é automaticamente reiniciado para uma nova partida;
+    - Há, ainda, na aba "Mesa", um botão "Reset" que pode ser utilizado para reiniciar a partida a qualquer momento;
+    - Ao finalizar cada fase do jogo (1, 2, 3 ou 4), o jogador deve utilizar o botão "Finalizar turno" para passar a vez para o adversário
+    - Nas fases de ataque, é permitido que cada jogador, em sua vez, efetue no máximo um ataque. Depois de fazer o ataque, qualquer ação que o jogador atual tentar efetuar na mesa resultará em um aviso aparecendo na tela avisando que ele deve utilizar o botão "Finalizar turno" para passar a vez;
+    - Nas fases de baixar cartas, as cartas que o jogador 1 baixa na mesa aparecem voltadas para baixo e são desviradas apenas na fase de ataque. Isso é feito para que o jogador 2 não tenha a vantagem de escolher as cartas que deseja baixar de acordo com as cartas que o jogador 1 baixou;
 
 Implementacao:
 - A lógica do jogo e controlada pela classe "Game".
@@ -24,3 +42,11 @@ Implementacao:
 - e aciona o método "play" de "Game". 
 - A classe "ImageFactory" garante que só as imagens das cartas usadas são realmente carregadas para a memória e que uma mesma -
 - imagem não é carregada duas vezes.
+- A hierarquia de cartas é representada por sete classes:
+    - Carta (abstrata): classe abstrata que representa as características gerais de uma carta, como possuir um nome e uma raridade. Dela, são herdadas duas outras classes:
+        - CartaEnergia: classe cujas instâncias representam as cartas de energia do jogo.
+        - CartaPokemon (abstrata): classe que representa os aspectos gerais das cartas de Pokémon, como HP (health points), características do ataque do Pokémon (dano, energias necessárias para atacar) etc. Ela também apresenta um método abstrato chamado "atacar", que deve ser implementado pelas subclasses de forma a conter a lógica do ataque - representado por uma classe auxiliar chamada "Ataque" - para cada tipo de Pokémon. Dela, são herdadas quatro classes, representando os Pokémons de cada um dos quatro elementos:
+            - PokemonAgua: representa os Pokémons do elemento água. Pokémons desse tipo têm força contra os de fogo e fraqueza contra os de planta;
+            - PokemonFogo: representa os Pokémons do elemento fogo. Pokémons desse tipo têm força contra os de planta e fraqueza contra os de água;
+            - PokemonPlanta: representa os Pokémons do elemento planta. Pokémons desse tipo têm força contra os de água e fraqueza contra os de fogo;
+            - PokemonNeutro: representa os Pokémons do elemento neutro. Pokémons desse tipo não tem forças nem fraquezas, desempenhando do mesmo jeito independentemente do tipo do Pokémon rival.
