@@ -3,6 +3,8 @@ package poo.gui;
 import javax.swing.JOptionPane;
 
 import javafx.application.Application;
+//import javafx.beans.property.ReadOnlyBooleanProperty;
+//import javafx.beans.value.ObservableValue;
 //import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -83,6 +85,17 @@ public class GameWindow extends Application implements GameListener {
 		Button butBaixar2 = new Button("Baixar\ncarta");
 		grid2.add(butBaixar2, 0, 3);
 		butBaixar2.setOnAction(e -> Game.getInstance().baixarCartas(2));
+
+		// Anexando um listener a propriedade "disabledProperty" do botao. Quando o botao e desabilitado, o trecho de codigo e executado
+		/*
+		ReadOnlyBooleanProperty disabledProperty = butBaixar2.disabledProperty();
+		disabledProperty.addListener(
+			(ObservableValue<? extends Boolean> prop,
+			Boolean oldVal, Boolean newVal) -> {
+			  	System.out.println("disabledProperty changed to" + newVal);
+		});
+		butBaixar2.setDisable(true);
+		*/
 	
 		GridPane grid3 = new GridPane();
 		grid3.setAlignment(Pos.CENTER);
